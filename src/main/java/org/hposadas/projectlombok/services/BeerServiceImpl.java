@@ -74,4 +74,23 @@ public class BeerServiceImpl implements BeerService {
 
         return beerMap.get(id); //devuelve el valor al cual esta asociada la llave id que recibe el metodo como argumento. Si no exuste devolvera null
     }
+
+    @Override
+    public Beer saveNewBeer(Beer beer) {
+
+        Beer tempBeer = Beer.builder()
+                .id(UUID.randomUUID())
+                .version(beer.getVersion())
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .upc(beer.getUpc())
+                .price(beer.getPrice())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        return this.beerMap.put(tempBeer.getId(), tempBeer);
+
+    }
 }
