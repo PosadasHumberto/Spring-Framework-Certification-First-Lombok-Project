@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hposadas.projectlombok.model.Beer;
 import org.hposadas.projectlombok.services.BeerService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,17 @@ public class BeerController {
 
         Beer savedBeer = beerService.saveNewBeer(beer);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/api/v1/beer/" + savedBeer.getId());
 
+        return new ResponseEntity(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{beerId}")
+    public ResponseEntity updateById(@PathVariable("beerId") UUID id, @RequestBody Beer beer) {
+
+        this.beerService.ubdateBeerById(id, beer);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

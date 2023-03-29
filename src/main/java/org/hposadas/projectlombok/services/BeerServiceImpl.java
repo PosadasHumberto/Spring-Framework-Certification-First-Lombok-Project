@@ -90,7 +90,27 @@ public class BeerServiceImpl implements BeerService {
                 .updateDate(LocalDateTime.now())
                 .build();
 
-        return this.beerMap.put(tempBeer.getId(), tempBeer);
+        this.beerMap.put(tempBeer.getId(), tempBeer);
+
+        return tempBeer;
+
+    }
+
+    @Override
+    public void ubdateBeerById(UUID id, Beer beer) {
+
+        //Beer foundBeer = this.beerMap.get(id);
+        Beer foundBeer = this.getBeerById(UUID.fromString(id.toString()));
+        foundBeer.setBeerName(beer.getBeerName() != null? beer.getBeerName() : foundBeer.getBeerName());
+        foundBeer.setVersion(beer.getVersion() != null? beer.getVersion() : foundBeer.getVersion());
+        foundBeer.setBeerStyle(beer.getBeerStyle() != null? beer.getBeerStyle() : foundBeer.getBeerStyle());
+        foundBeer.setUpc(beer.getUpc() != null? beer.getUpc() : foundBeer.getUpc());
+        foundBeer.setPrice(beer.getPrice() != null? beer.getPrice() : foundBeer.getPrice());
+        foundBeer.setQuantityOnHand(beer.getQuantityOnHand() != null? beer.getQuantityOnHand() : foundBeer.getQuantityOnHand());
+        foundBeer.setUpdateDate(LocalDateTime.now());
+
+        this.beerMap.put(id, foundBeer);
+
 
     }
 }
