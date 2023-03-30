@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BeerController.class)   //debemos especificar cual es el controlador que queremos testear. Si no lo especificamos entonces va a traer todos los controladores que tengamos.
 class BeerControllerTest {
 
+    //atributos
     @Autowired
     MockMvc mockMvc;
 
@@ -27,6 +28,18 @@ class BeerControllerTest {
     BeerService beerService;
 
     BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
+
+    //métodos
+    @Test
+    void listBeers() throws Exception {
+        given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
+
+        mockMvc.perform(get("/api/v1/beer")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(beerServiceImpl.listBeers().size())));
+    }
 
     @Test
     void getBeerById() throws Exception {
@@ -42,4 +55,5 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
                 .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
     }
+
 }
