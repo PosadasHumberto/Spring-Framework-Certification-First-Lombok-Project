@@ -1,6 +1,7 @@
 package org.hposadas.projectlombok.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hposadas.projectlombok.model.Beer;
 import org.hposadas.projectlombok.services.BeerService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController     //integra las anotaciones @Controller y @ResponseBody
 @Slf4j
 @RequestMapping("/api/v1/beer")
