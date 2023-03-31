@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class BeerController {
     private final BeerService beerService;
 
     //métodos
-    @GetMapping
+    @GetMapping(BEER_PATH)
     public List<Beer> listBeers(){
         return this.beerService.listBeers();
     }
@@ -35,7 +36,7 @@ public class BeerController {
 
         log.debug("get Beer by ID - in controller");
 
-        return beerService.getBeerById(id);
+        return beerService.getBeerById(id).orElseThrow(NotFoundException::new);
     }
 
     @PostMapping(BEER_PATH)

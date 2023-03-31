@@ -69,11 +69,11 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer getBeerById(UUID id) {
+    public Optional<Beer> getBeerById(UUID id) {
 
       log.debug("Get Beer by Id - in service. Id: " + id.toString());
 
-        return beerMap.get(id); //devuelve el valor al cual esta asociada la llave id que recibe el metodo como argumento. Si no exuste devolvera null
+        return Optional.of(beerMap.get(id)); //devuelve el valor al cual esta asociada la llave id que recibe el metodo como argumento. Si no exuste devolvera null
     }
 
     @Override
@@ -100,8 +100,7 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public void ubdateBeerById(UUID id, Beer beer) {
 
-        //Beer foundBeer = this.beerMap.get(id);
-        Beer foundBeer = this.getBeerById(UUID.fromString(id.toString()));
+        Beer foundBeer = this.beerMap.get(id);
         foundBeer.setBeerName(beer.getBeerName());
         foundBeer.setVersion(beer.getVersion());
         foundBeer.setBeerStyle(beer.getBeerStyle());
@@ -123,7 +122,7 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public void patchBeerById(UUID id, Beer beer) {
 
-        Beer existing = this.getBeerById(UUID.fromString(id.toString()));
+        Beer existing = this.beerMap.get(id);
         if (StringUtils.hasText(beer.getBeerName())){
             existing.setBeerName(beer.getBeerName());
         }
