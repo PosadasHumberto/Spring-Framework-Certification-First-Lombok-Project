@@ -97,4 +97,21 @@ class BeerControllerTest {
                 .andExpect(header().exists("Location"));
 
     }
+
+    @Test
+    void updateById() throws Exception {
+
+        Beer beer = beerServiceImpl.listBeers().get(0);
+        beer.setBeerName("Ultra");
+        beer.setUpdateDate(LocalDateTime.now());
+
+        mockMvc.perform(put("/api/v1/beer/" + beer.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(beer))
+                .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNoContent());
+
+        verify(beerService).ubdateBeerById(any(UUID.class),any(Beer.class));
+
+    }
 }
