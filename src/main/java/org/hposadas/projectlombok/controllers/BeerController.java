@@ -28,6 +28,8 @@ public class BeerController {
         return this.beerService.listBeers();
     }
 
+
+
     @GetMapping(BEER_PATH_ID)
     public Beer getBeerById(@PathVariable("beerId") UUID id) {
 
@@ -71,4 +73,5 @@ public class BeerController {
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
 }
