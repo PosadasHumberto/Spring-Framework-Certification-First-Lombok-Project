@@ -1,5 +1,6 @@
 package org.hposadas.projectlombok.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hposadas.projectlombok.model.Beer;
 import org.hposadas.projectlombok.model.BeerStyle;
@@ -132,5 +133,20 @@ class BeerControllerTest {
         verify(beerService).deleteById(uuidArgumentCaptor.capture());
 
         assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+    }
+
+    @Test
+    void patchBeerById() throws Exception {
+
+        Beer beer = beerServiceImpl.listBeers().get(0);
+        beer.setBeerName("Tecate");
+        beer.setUpdateDate(LocalDateTime.now());
+
+        mockMvc.perform(patch("/api/v1/beer/" + beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isNoContent());
+        verify(beerService).patchBeerById(any(UUID.class), any(Beer.class));
     }
 }
