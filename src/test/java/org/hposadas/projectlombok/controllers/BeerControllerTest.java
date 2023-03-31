@@ -33,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BeerControllerTest {
 
     //atributos
+    public final static String BEER_PATH = "/api/v1/beer";
+    public final static String BEER_PATH_ID = BEER_PATH + "/";
     @Autowired
     MockMvc mockMvc;
 
@@ -55,7 +57,7 @@ class BeerControllerTest {
     void listBeers() throws Exception {
         given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
 
-        mockMvc.perform(get("/api/v1/beer")
+        mockMvc.perform(get(BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -69,7 +71,7 @@ class BeerControllerTest {
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
 
-        mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
+        mockMvc.perform(get(BEER_PATH_ID + testBeer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -94,7 +96,7 @@ class BeerControllerTest {
 
         given(beerService.saveNewBeer(any(Beer.class))).willReturn(beer);
 
-        mockMvc.perform(post("/api/v1/beer")
+        mockMvc.perform(post(BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(beer)))
@@ -110,7 +112,7 @@ class BeerControllerTest {
         beer.setBeerName("Ultra");
         beer.setUpdateDate(LocalDateTime.now());
 
-        mockMvc.perform(put("/api/v1/beer/" + beer.getId())
+        mockMvc.perform(put(BEER_PATH_ID + beer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beer))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -125,7 +127,7 @@ class BeerControllerTest {
 
         Beer beer = beerServiceImpl.listBeers().get(0);
 
-        mockMvc.perform(delete("/api/v1/beer/" + beer.getId())
+        mockMvc.perform(delete(BEER_PATH_ID + beer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -142,7 +144,7 @@ class BeerControllerTest {
         beer.setBeerName("Tecate");
         beer.setUpdateDate(LocalDateTime.now());
 
-        mockMvc.perform(patch("/api/v1/beer/" + beer.getId())
+        mockMvc.perform(patch(BEER_PATH_ID + beer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beer)))
