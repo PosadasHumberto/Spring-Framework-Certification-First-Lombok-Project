@@ -1,7 +1,7 @@
 package org.hposadas.projectlombok.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hposadas.projectlombok.model.Beer;
+import org.hposadas.projectlombok.model.BeerDTO;
 import org.hposadas.projectlombok.model.BeerStyle;
 import org.hposadas.projectlombok.services.BeerService;
 import org.hposadas.projectlombok.services.BeerServiceImpl;
@@ -67,7 +67,7 @@ class BeerControllerTest {
     @Test
     void getBeerById() throws Exception {
 
-        Beer testBeer = beerServiceImpl.listBeers().get(0);
+        BeerDTO testBeer = beerServiceImpl.listBeers().get(0);
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
@@ -93,7 +93,7 @@ class BeerControllerTest {
     @Test
     void handlePost() throws Exception {
 
-        Beer beer = Beer.builder()
+        BeerDTO beer = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
                 .beerName("Test Beer")
@@ -105,7 +105,7 @@ class BeerControllerTest {
                 .updateDate(LocalDateTime.now())
                 .build();
 
-        given(beerService.saveNewBeer(any(Beer.class))).willReturn(beer);
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beer);
 
         mockMvc.perform(post(BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
@@ -119,7 +119,7 @@ class BeerControllerTest {
     @Test
     void updateById() throws Exception {
 
-        Beer beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
         beer.setBeerName("Ultra");
         beer.setUpdateDate(LocalDateTime.now());
 
@@ -129,14 +129,14 @@ class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNoContent());
 
-        verify(beerService).ubdateBeerById(any(UUID.class),any(Beer.class));
+        verify(beerService).ubdateBeerById(any(UUID.class),any(BeerDTO.class));
 
     }
 
     @Test
     void deleteById() throws Exception {
 
-        Beer beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
 
         mockMvc.perform(delete(BEER_PATH_ID + beer.getId())
                 .accept(MediaType.APPLICATION_JSON))
@@ -151,7 +151,7 @@ class BeerControllerTest {
     @Test
     void patchBeerById() throws Exception {
 
-        Beer beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
         beer.setBeerName("Tecate");
         beer.setUpdateDate(LocalDateTime.now());
 
@@ -160,6 +160,6 @@ class BeerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beer)))
                 .andExpect(status().isNoContent());
-        verify(beerService).patchBeerById(any(UUID.class), any(Beer.class));
+        verify(beerService).patchBeerById(any(UUID.class), any(BeerDTO.class));
     }
 }

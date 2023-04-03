@@ -1,18 +1,26 @@
-package org.hposadas.projectlombok.model;
+package org.hposadas.projectlombok.entities;
 
-
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.*;
+import org.hposadas.projectlombok.model.BeerStyle;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Builder
-@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Beer {
 
     //atributos
+    @Id
+    @GeneratedValue
     private UUID id;
     private Integer version;
     private String beerName;
