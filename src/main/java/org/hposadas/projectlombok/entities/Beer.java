@@ -1,9 +1,8 @@
 package org.hposadas.projectlombok.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.hposadas.projectlombok.model.BeerStyle;
 
 import java.math.BigDecimal;
@@ -20,8 +19,11 @@ public class Beer {
 
     //atributos
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
+    @Version
     private Integer version;
     private String beerName;
     private BeerStyle beerStyle;
