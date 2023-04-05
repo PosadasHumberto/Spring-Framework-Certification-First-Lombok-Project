@@ -1,7 +1,6 @@
 package org.hposadas.projectlombok.services;
 
 import lombok.RequiredArgsConstructor;
-import org.hposadas.projectlombok.controllers.NotFoundException;
 import org.hposadas.projectlombok.mappers.BeerMapper;
 import org.hposadas.projectlombok.model.BeerDTO;
 import org.hposadas.projectlombok.repositories.BeerRepository;

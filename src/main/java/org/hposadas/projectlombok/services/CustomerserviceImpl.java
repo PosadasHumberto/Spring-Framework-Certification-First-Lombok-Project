@@ -53,8 +53,8 @@ public class CustomerserviceImpl implements Customerservice {
     }
 
     @Override
-    public CustomerDTO getCustomerById(UUID id) {
-        return this.customerMap.get(id);
+    public Optional<CustomerDTO> getCustomerById(UUID id) {
+        return Optional.ofNullable(this.customerMap.get(id));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CustomerserviceImpl implements Customerservice {
     @Override
     public void updateCustomerById(UUID id, CustomerDTO customer) {
 
-        CustomerDTO tempCustomer = this.getCustomerById(UUID.fromString(id.toString()));
+        CustomerDTO tempCustomer = this.getCustomerById(UUID.fromString(id.toString())).get();
         tempCustomer.setCustomerName(customer.getCustomerName() != null? customer.getCustomerName() : tempCustomer.getCustomerName());
         tempCustomer.setVersion(customer.getVersion() != null? customer.getVersion() : tempCustomer.getVersion());
         tempCustomer.setLastModifiedDate(LocalDateTime.now());
