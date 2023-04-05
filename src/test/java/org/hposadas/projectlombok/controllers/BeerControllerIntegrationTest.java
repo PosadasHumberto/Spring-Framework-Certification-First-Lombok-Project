@@ -1,5 +1,6 @@
 package org.hposadas.projectlombok.controllers;
 
+import org.hposadas.projectlombok.entities.Beer;
 import org.hposadas.projectlombok.model.BeerDTO;
 import org.hposadas.projectlombok.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -8,9 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest     //Para el Integration Test necesitamos todo el contexto de SpringBootTest
 class BeerControllerIntegrationTest {
@@ -37,5 +41,19 @@ class BeerControllerIntegrationTest {
 
         List<BeerDTO> dtos = beerController.listBeers();
         assertThat(dtos).isEmpty();
+    }
+
+    @Test
+    void testGetById(){
+        Beer beer = beerRepository.findAll().get(0);
+        BeerDTO dto = beerController.getBeerById(beer.getId());
+        assertThat(dto).isNotNull();
+    }
+
+    @Test
+    void testBeerIdNotFound(){
+        assertThrows(NotFoundException.class, () -> {
+            beerController.getBeerById(UUID.randomUUID());
+        });
     }
 }
