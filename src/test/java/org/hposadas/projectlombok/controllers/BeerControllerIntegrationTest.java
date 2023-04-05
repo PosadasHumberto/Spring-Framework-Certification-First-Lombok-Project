@@ -6,6 +6,8 @@ import org.hposadas.projectlombok.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,5 +57,26 @@ class BeerControllerIntegrationTest {
         assertThrows(NotFoundException.class, () -> {
             beerController.getBeerById(UUID.randomUUID());
         });
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void saveNewBeerTest(){
+        BeerDTO beer = BeerDTO.builder()
+                .beerName("BeerTest")
+                .build();
+
+        ResponseEntity response = beerController.handlePost(beer);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = response.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString(locationUUID[4]);
+
+        Beer beerTemp = beerRepository.findById(savedUUID).get();
+        assertThat(beerTemp).isNotNull();
+
     }
 }
