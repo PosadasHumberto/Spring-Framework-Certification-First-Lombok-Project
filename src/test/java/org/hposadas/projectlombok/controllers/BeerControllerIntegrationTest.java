@@ -1,6 +1,7 @@
 package org.hposadas.projectlombok.controllers;
 
 import org.hposadas.projectlombok.entities.Beer;
+import org.hposadas.projectlombok.mappers.BeerMapper;
 import org.hposadas.projectlombok.model.BeerDTO;
 import org.hposadas.projectlombok.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +27,9 @@ class BeerControllerIntegrationTest {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Autowired
+    BeerMapper beerMapper;
 
     //métodos
     @Test
@@ -78,5 +81,35 @@ class BeerControllerIntegrationTest {
         Beer beerTemp = beerRepository.findById(savedUUID).get();
         assertThat(beerTemp).isNotNull();
 
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void updateExistingBeerTest() {
+        Beer beerToUpdate = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = beerMapper.beerToBeerDto(beerToUpdate);
+        beerDTO.setBeerName("Modified Beer Name");
+        beerDTO.setId(null);
+        beerDTO.setVersion(null);
+
+        ResponseEntity response = beerController.updateById(
+                beerToUpdate.getId(), beerDTO);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        Beer beerToCompare = beerRepository.findById(beerToUpdate.getId()).get();
+        assertThat(beerToCompare.getBeerName()).isEqualTo(beerDTO.getBeerName());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void updateNonExistingBeerTest() {
+        assertThrows(
+                NotFoundException.class,
+                () -> {
+                    beerController.updateById(UUID.randomUUID(), BeerDTO.builder().build());
+                }
+                );
     }
 }

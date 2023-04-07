@@ -98,11 +98,10 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void ubdateBeerById(UUID id, BeerDTO beer) {
+    public Optional<BeerDTO> ubdateBeerById(UUID id, BeerDTO beer) {
 
         BeerDTO foundBeer = this.beerMap.get(id);
         foundBeer.setBeerName(beer.getBeerName());
-        foundBeer.setVersion(beer.getVersion());
         foundBeer.setBeerStyle(beer.getBeerStyle());
         foundBeer.setUpc(beer.getUpc());
         foundBeer.setPrice(beer.getPrice());
@@ -110,6 +109,7 @@ public class BeerServiceImpl implements BeerService {
         foundBeer.setUpdateDate(LocalDateTime.now());
 
         this.beerMap.put(id, foundBeer);
+        return Optional.of(foundBeer);
 
 
     }

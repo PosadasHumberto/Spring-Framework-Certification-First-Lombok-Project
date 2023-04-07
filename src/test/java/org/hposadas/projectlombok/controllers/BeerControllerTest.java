@@ -123,6 +123,8 @@ class BeerControllerTest {
         beer.setBeerName("Ultra");
         beer.setUpdateDate(LocalDateTime.now());
 
+        given(beerService.ubdateBeerById(any(), any())).willReturn(Optional.of(beer));
+
         mockMvc.perform(put(BEER_PATH_ID + beer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beer))

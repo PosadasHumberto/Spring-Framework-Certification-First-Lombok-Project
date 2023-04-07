@@ -1,6 +1,7 @@
 package org.hposadas.projectlombok.services;
 
 import lombok.RequiredArgsConstructor;
+import org.hposadas.projectlombok.entities.Beer;
 import org.hposadas.projectlombok.mappers.BeerMapper;
 import org.hposadas.projectlombok.model.BeerDTO;
 import org.hposadas.projectlombok.repositories.BeerRepository;
@@ -52,8 +53,27 @@ public class BeerServiceJPA implements BeerService{
     }
 
     @Override
-    public void ubdateBeerById(UUID id, BeerDTO beer) {
+    public Optional<BeerDTO> ubdateBeerById(UUID id, BeerDTO beer) {
+        /*beerRepository.findById(id).ifPresent(foundBeer -> {
+            foundBeer.setBeerName(beer.getBeerName());
+            foundBeer.setBeerStyle(beer.getBeerStyle());
+            foundBeer.setPrice(beer.getPrice());
+            foundBeer.setUpc(beer.getUpc());
 
+            beerRepository.save(foundBeer);
+        });*/
+
+        if(beerRepository.findById(id).isPresent()){
+            Beer foundBeer = beerRepository.findById(id).get();
+            foundBeer.setBeerName(beer.getBeerName());
+            foundBeer.setBeerStyle(beer.getBeerStyle());
+            foundBeer.setPrice(beer.getPrice());
+            foundBeer.setUpc(beer.getUpc());
+
+            beerRepository.save(foundBeer);
+             return Optional.of(beerMapper.beerToBeerDto(foundBeer));
+        }
+        return Optional.empty();
     }
 
     @Override
