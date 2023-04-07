@@ -54,14 +54,6 @@ public class BeerServiceJPA implements BeerService{
 
     @Override
     public Optional<BeerDTO> ubdateBeerById(UUID id, BeerDTO beer) {
-        /*beerRepository.findById(id).ifPresent(foundBeer -> {
-            foundBeer.setBeerName(beer.getBeerName());
-            foundBeer.setBeerStyle(beer.getBeerStyle());
-            foundBeer.setPrice(beer.getPrice());
-            foundBeer.setUpc(beer.getUpc());
-
-            beerRepository.save(foundBeer);
-        });*/
 
         if(beerRepository.findById(id).isPresent()){
             Beer foundBeer = beerRepository.findById(id).get();
@@ -77,8 +69,13 @@ public class BeerServiceJPA implements BeerService{
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public Boolean deleteById(UUID id) {
 
+        if (beerRepository.existsById(id)){
+            beerRepository.deleteById(id);
+            return true;
+        }
+            return false;
     }
 
     @Override
