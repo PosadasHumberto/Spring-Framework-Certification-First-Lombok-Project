@@ -2,6 +2,7 @@ package org.hposadas.projectlombok.services;
 
 import org.hposadas.projectlombok.model.CustomerDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -73,19 +74,31 @@ public class CustomerserviceImpl implements Customerservice {
     }
 
     @Override
-    public void updateCustomerById(UUID id, CustomerDTO customer) {
+    public Optional<CustomerDTO> updateCustomerById(UUID id, CustomerDTO customer) {
 
         CustomerDTO tempCustomer = this.getCustomerById(UUID.fromString(id.toString())).get();
         tempCustomer.setCustomerName(customer.getCustomerName() != null? customer.getCustomerName() : tempCustomer.getCustomerName());
         tempCustomer.setVersion(customer.getVersion() != null? customer.getVersion() : tempCustomer.getVersion());
         tempCustomer.setLastModifiedDate(LocalDateTime.now());
 
-        this.customerMap.put(id, tempCustomer);
+        return Optional.of(this.customerMap.put(id, tempCustomer));
 
     }
 
     @Override
-    public void deleteCustomerById(UUID id) {
+    public Boolean deleteCustomerById(UUID id) {
         this.customerMap.remove(id);
+        return true;
+    }
+
+    @Override
+    public Optional<CustomerDTO> patchCustomerById(UUID customerId, CustomerDTO customer) {
+        CustomerDTO existing = customerMap.get(customerId);
+
+        if (StringUtils.hasText(customer.getCustomerName())) {
+            existing.setCustomerName(customer.getCustomerName());
+        }
+
+        return Optional.of(existing);
     }
 }

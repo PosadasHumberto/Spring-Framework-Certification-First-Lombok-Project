@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface Customerservice {
+public interface Customerservice{
 
     //firmas de métodos
     public List<CustomerDTO> getCustomers();
     public Optional<CustomerDTO> getCustomerById(UUID id);
     public CustomerDTO saveNewCustomer(CustomerDTO customer);
-    public void updateCustomerById(UUID id, CustomerDTO customer);
-    public void deleteCustomerById(UUID id);
+    public Optional<CustomerDTO> updateCustomerById(UUID id, CustomerDTO customer);
+    public Boolean deleteCustomerById(UUID id);
+    public Optional<CustomerDTO> patchCustomerById(UUID customerId, CustomerDTO customer);
 }

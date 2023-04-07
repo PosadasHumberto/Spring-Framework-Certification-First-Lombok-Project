@@ -40,7 +40,7 @@ public class CustomerController {
         CustomerDTO savedCustomer = this.customerservice.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/customer/v1" + savedCustomer.getId());
+        headers.add("Location", "/api/customer/v1/" + savedCustomer.getId());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
@@ -48,18 +48,24 @@ public class CustomerController {
     @PutMapping("/{customerId}")
     public ResponseEntity updateCustomerById(@PathVariable("customerId") UUID id, @RequestBody CustomerDTO customer){
 
-        this.customerservice.updateCustomerById(id, customer);
+        if (this.customerservice.updateCustomerById(id, customer).isPresent()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            throw new NotFoundException();
+        }
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
     @DeleteMapping("/{customerId}")
     public ResponseEntity deleteCustomerByid(@PathVariable("customerId") UUID id){
 
-        this.customerservice.deleteCustomerById(id);
+        if (this.customerservice.deleteCustomerById(id)){
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }else {
+            throw new NotFoundException();
+        }
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }
