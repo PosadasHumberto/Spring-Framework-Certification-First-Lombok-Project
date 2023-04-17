@@ -8,14 +8,18 @@ import org.hposadas.projectlombok.services.BeerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +47,12 @@ class BeerControllerTest {
 
     @MockBean           //indica a mockito brindar un mock de BeerService al contexto Spring
     BeerService beerService;
+
+    @Captor
+    ArgumentCaptor<UUID> uuidArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<BeerDTO> beerDTOArgumentCaptor;
 
     BeerServiceImpl beerServiceImpl;
 
@@ -165,5 +175,41 @@ class BeerControllerTest {
                         .content(objectMapper.writeValueAsString(beer)))
                 .andExpect(status().isNoContent());
         verify(beerService).patchBeerById(any(UUID.class), any(BeerDTO.class));
+    }
+
+    /*                          Validation tests                                */
+    @Test
+    void testCreatedBeerNotValidated() throws Exception {
+
+        BeerDTO beerDTO = BeerDTO.builder().build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+
+        MvcResult mvcResult = mockMvc.perform(post(BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(jsonPath("$.length()", is(7)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void updateByIdNonValidTest() throws Exception {
+
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+        beer.setBeerName("");
+        beer.setUpdateDate(LocalDateTime.now());
+
+        given(beerService.ubdateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        mockMvc.perform(put(BEER_PATH_ID + beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(1)))
+                .andExpect(status().isBadRequest());
     }
 }
