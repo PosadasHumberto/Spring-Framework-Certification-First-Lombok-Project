@@ -2,6 +2,7 @@ package org.hposadas.projectlombok.bootstrap;
 
 import org.hposadas.projectlombok.repositories.BeerRepository;
 import org.hposadas.projectlombok.repositories.CustomerRepository;
+import org.hposadas.projectlombok.services.BeerCsvService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,15 @@ class BootstrapDataTest {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    BeerCsvService beerCsvService;
+
     BootstrapData bootstrapData;
 
     //métodos
     @BeforeEach
     void setUp(){
-        bootstrapData = new BootstrapData(beerRepository, customerRepository);
+        bootstrapData = new BootstrapData(beerRepository, customerRepository, beerCsvService);
     }
 
     @Test
