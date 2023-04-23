@@ -1,15 +1,16 @@
 package org.hposadas.projectlombok.services;
 
 import org.hposadas.projectlombok.model.BeerDTO;
+import org.hposadas.projectlombok.model.BeerStyle;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BeerService {
 
     //firmas de métodos
-    List<BeerDTO> listBeers();
+    Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
     Optional<BeerDTO> getBeerById(UUID id);
 
     BeerDTO saveNewBeer(BeerDTO beer);

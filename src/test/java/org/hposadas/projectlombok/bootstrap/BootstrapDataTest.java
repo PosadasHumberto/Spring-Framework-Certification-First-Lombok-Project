@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(BeerCsvServiceImpl.class)
+@Import(BeerCsvServiceImpl.class)   //@DataJpaTest trae contexto de los componentes qrelacionados con al persistencia, BeerCsvService no esta relacionado con la persistencia asi que aun inyectandolo no vendra por lo tanto hay que agregarlo manualmente con @Import.
 class BootstrapDataTest {
 
     //atributos

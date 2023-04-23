@@ -63,19 +63,20 @@ class BeerControllerTest {
 
     @Test
     void listBeers() throws Exception {
-        given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
+        given(beerService.listBeers(any(), any(), any(), any(), any()))
+                .willReturn(beerServiceImpl.listBeers(null, null, false, null, null));
 
         mockMvc.perform(get(BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(beerServiceImpl.listBeers().size())));
+                .andExpect(jsonPath("$.content.length()", is(3)));
     }
 
     @Test
     void getBeerById() throws Exception {
 
-        BeerDTO testBeer = beerServiceImpl.listBeers().get(0);
+        BeerDTO testBeer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
@@ -127,7 +128,7 @@ class BeerControllerTest {
     @Test
     void updateById() throws Exception {
 
-        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
         beer.setBeerName("Ultra");
         beer.setUpdateDate(LocalDateTime.now());
 
@@ -146,7 +147,7 @@ class BeerControllerTest {
     @Test
     void deleteById() throws Exception {
 
-        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
 
         given(beerService.deleteById(any())).willReturn(true);
 
@@ -163,7 +164,7 @@ class BeerControllerTest {
     @Test
     void patchBeerById() throws Exception {
 
-        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
         beer.setBeerName("Tecate");
         beer.setUpdateDate(LocalDateTime.now());
 
@@ -181,7 +182,7 @@ class BeerControllerTest {
 
         BeerDTO beerDTO = BeerDTO.builder().build();
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(1));
 
         MvcResult mvcResult = mockMvc.perform(post(BEER_PATH)
                         .accept(MediaType.APPLICATION_JSON)
@@ -197,7 +198,7 @@ class BeerControllerTest {
     @Test
     void updateByIdNonValidTest() throws Exception {
 
-        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
         beer.setBeerName("");
         beer.setUpdateDate(LocalDateTime.now());
 

@@ -1,11 +1,15 @@
 package org.hposadas.projectlombok.repositories;
 
 import jakarta.validation.ConstraintViolationException;
+import org.hposadas.projectlombok.bootstrap.BootstrapData;
 import org.hposadas.projectlombok.entities.Beer;
 import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.services.BeerCsvServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 
@@ -14,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @DataJpaTest
+@Import({BootstrapData.class, BeerCsvServiceImpl.class})
 class BeerRepositoryTest {
 
     //atributos
@@ -47,10 +52,15 @@ class BeerRepositoryTest {
                            .build());
 
            beerRepository.flush();
-           assertThat(savedBeer).isNotNull();
-           assertThat(savedBeer.getId()).isNotNull();
+/*           assertThat(savedBeer).isNotNull();
+           assertThat(savedBeer.getId()).isNotNull();*/
        });
+    }
 
+    @Test
+    void testGetBeerListByName() {
+        Page<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCase("%IPA%", null);
 
+        assertThat(list.getContent().size()).isEqualTo(336);
     }
 }
