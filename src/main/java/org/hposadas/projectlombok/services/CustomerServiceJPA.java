@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @Primary
 @RequiredArgsConstructor
-public class CustomerserviceJPA implements Customerservice {
+public class CustomerServiceJPA implements CustomerService {
 
     //atributos
     private final CustomerRepository customerRepository;
@@ -56,7 +56,7 @@ public class CustomerserviceJPA implements Customerservice {
     public Optional<CustomerDTO> updateCustomerById(UUID id, CustomerDTO customer) {
         if (customerRepository.existsById(id)){
             Customer customerRecovered = this.customerRepository.findById(id).get();
-            customerRecovered.setCustomerName("Modified Customer Name");
+            customerRecovered.setName("Modified Customer Name");
             customerRecovered.setLastModifiedDate(LocalDateTime.now());
 
             customerRepository.save(customerRecovered);
@@ -79,8 +79,8 @@ public class CustomerserviceJPA implements Customerservice {
         AtomicReference<Optional<CustomerDTO>> atomicReference = new AtomicReference<>();
 
         customerRepository.findById(customerId).ifPresentOrElse(foundCustomer -> {
-            if (StringUtils.hasText(customer.getCustomerName())){
-                foundCustomer.setCustomerName(customer.getCustomerName());
+            if (StringUtils.hasText(customer.getName())){
+                foundCustomer.setName(customer.getName());
             }
             atomicReference.set(Optional.of(customerMapper
                     .customerToCustomerDto(customerRepository.save(foundCustomer))));

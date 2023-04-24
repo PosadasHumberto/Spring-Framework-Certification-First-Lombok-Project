@@ -66,7 +66,7 @@ class CustomerControllerIntegrationTest {
     @Rollback
     void saveNewCustomer(){
         CustomerDTO customerDTO = CustomerDTO.builder()
-                .customerName("New Customer")
+                .name("New Customer")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
@@ -88,7 +88,7 @@ class CustomerControllerIntegrationTest {
     void updateExistingCustomerTest(){
         Customer customer = customerRepository.findAll().get(0);
         CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
-        customerDTO.setCustomerName("Modified Customer Name");
+        customerDTO.setName("Modified Customer Name");
         customerDTO.setLastModifiedDate(LocalDateTime.now());
         customerDTO.setId(null);
         customerDTO.setVersion(null);
@@ -98,8 +98,8 @@ class CustomerControllerIntegrationTest {
         );
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(
-                customerRepository.findById(customer.getId()).get().getCustomerName()
-        ).isEqualTo(customerDTO.getCustomerName());
+                customerRepository.findById(customer.getId()).get().getName()
+        ).isEqualTo(customerDTO.getName());
     }
 
     @Test

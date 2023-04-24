@@ -95,7 +95,7 @@ public class BootstrapData implements CommandLineRunner {
             Customer customer1 = Customer.builder()
                     .id(UUID.randomUUID())
                     .version(1)
-                    .customerName("Jaime Duende")
+                    .name("Jaime Duende")
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
@@ -103,7 +103,7 @@ public class BootstrapData implements CommandLineRunner {
             Customer customer2 = Customer.builder()
                     .id(UUID.randomUUID())
                     .version(1)
-                    .customerName("Leticia Aguila")
+                    .name("Leticia Aguila")
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
@@ -111,7 +111,7 @@ public class BootstrapData implements CommandLineRunner {
             Customer customer3 = Customer.builder()
                     .id(UUID.randomUUID())
                     .version(1)
-                    .customerName("Carolina Silis")
+                    .name("Carolina Silis")
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
@@ -119,6 +119,7 @@ public class BootstrapData implements CommandLineRunner {
             customerRepository.save(customer1);
             customerRepository.save(customer2);
             customerRepository.save(customer3);
+
         }
     }
     private void loadCsvData() throws FileNotFoundException {

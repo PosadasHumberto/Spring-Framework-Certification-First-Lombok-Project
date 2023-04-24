@@ -1,29 +1,24 @@
 package org.hposadas.projectlombok.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
-import org.hposadas.projectlombok.model.BeerStyle;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
+@Builder        //to create instances easy
 @Getter
 @Setter
-@Builder
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Beer {
+@Entity
+public class BeerOrder {
 
     //atributos
     @Id
@@ -32,38 +27,34 @@ public class Beer {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
-    @Version
-    private Integer version;
-
-    @NotNull
-    @NotBlank
-    @Size(max = 50)
-    @Column(length = 50)
-    private String beerName;
-
-    @NotNull
-    private BeerStyle beerStyle;
-
-    @NotBlank
-    @NotNull
-    @Size(max = 255)
-    private String upc;
-    private Integer quantityOnHand;
-
-    @NotNull
-    private BigDecimal price;
 
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    @Column(updatable = false)
+    private Timestamp createdDate;
 
     @UpdateTimestamp
-    private LocalDateTime updateDate;
+    private Timestamp lastModifiedDate;
+
+    @Version
+    private Long version;
+
+    private String customerRef;
 
     /**
      * Relaciones
      */
 
-    //entre Beer y BeerOrderLine 1-N
-    @OneToMany(mappedBy = "beer")
+    //BeerOrder y Customer N-1
+    @ManyToOne
+    private Customer customer;
+
+    //BeerOrder y BeerOrderLine 1-N
+    @OneToMany(mappedBy = "beerOrder")
     private Set<BeerOrderLine> beerOrderLines;
+
+    //métodos
+    public boolean isNew() {    //para saber si esta orden es nueva o ya existia.
+        return this.id == null;
+    }
+
 }

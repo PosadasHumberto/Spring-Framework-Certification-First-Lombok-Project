@@ -7,6 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -24,7 +25,7 @@ public class Customer {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
-    private String customerName;
+    private String name;
     @Version
     private Integer version;
     private LocalDateTime createdDate;
@@ -32,4 +33,12 @@ public class Customer {
 
     @Column(length = 255)
     private String email;
+
+    /**
+     * Relaciones
+     */
+
+    //Customer y BeerOrder 1-N
+    @OneToMany(mappedBy = "customer")
+    private Set<BeerOrder> beerOrders;
 }

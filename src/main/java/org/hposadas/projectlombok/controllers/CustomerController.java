@@ -3,7 +3,7 @@ package org.hposadas.projectlombok.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.hposadas.projectlombok.model.CustomerDTO;
-import org.hposadas.projectlombok.services.Customerservice;
+import org.hposadas.projectlombok.services.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class CustomerController {
 
     //atributos
-    private final Customerservice customerservice;
+    private final CustomerService customerservice;
 
     //métodos
     @GetMapping()
