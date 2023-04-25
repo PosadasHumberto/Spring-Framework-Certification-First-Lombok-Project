@@ -15,12 +15,13 @@ import java.util.UUID;
 @Builder        //to create instances easy
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class BeerOrder {
 
-    //atributos
+    /**
+     * Atributos
+     */
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -41,6 +42,26 @@ public class BeerOrder {
     private String customerRef;
 
     /**
+     * Constructor
+     */
+    public BeerOrder(UUID id,
+                     Timestamp createdDate,
+                     Timestamp lastModifiedDate,
+                     Long version, String customerRef,
+                     Customer customer,
+                     Set<BeerOrderLine> beerOrderLines,
+                     BeerOrderShipment beerOrderShipment) {
+        this.id = id;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+        this.version = version;
+        this.customerRef = customerRef;
+        this.setCustomer(customer);     //Asignando el customer al BeerOrder
+        this.beerOrderLines = beerOrderLines;
+        this.setBeerOrderShipment(beerOrderShipment);
+    }
+
+    /**
      * Relaciones
      */
 
@@ -52,7 +73,36 @@ public class BeerOrder {
     @OneToMany(mappedBy = "beerOrder")
     private Set<BeerOrderLine> beerOrderLines;
 
-    //métodos
+    //BeerOrder y BeerOrderShipment 1-1
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private BeerOrderShipment beerOrderShipment;
+
+    /**
+     * Sobreescribiendo setters
+     */
+
+    /**
+     * Sobreescribiendo setter de Customer para crear la relacion inversa
+     * entre BeerOrder y Customer en el momento en el que a BeerOrder se le
+     * asigne un Customer al atributo Set<BeerOrders> beerOrders se le agregara
+     * la instancia actual de BeerOrder.
+     * Para lograr esto, el atributo Set<BeerOrders> beerOrders debe estar
+     * inicializado previamente en la clase Customer.
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        customer.getBeerOrders().add(this);
+    }
+
+    //sobreescribiendo el setter de beerOrderShipment
+    public void setBeerOrderShipment(BeerOrderShipment beerOrderShipment) {
+        this.beerOrderShipment = beerOrderShipment;
+        beerOrderShipment.setBeerOrder(this);
+    }
+
+    /**
+     * Métodos
+     */
     public boolean isNew() {    //para saber si esta orden es nueva o ya existia.
         return this.id == null;
     }
