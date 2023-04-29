@@ -15,7 +15,7 @@ import java.util.UUID;
 public class BeerDTO {
 
     //atributos
-    @NotNull
+
     private UUID id;
     private Integer version;
 
