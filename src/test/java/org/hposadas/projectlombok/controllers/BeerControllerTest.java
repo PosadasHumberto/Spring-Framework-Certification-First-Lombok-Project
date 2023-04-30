@@ -227,4 +227,15 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.length()", is(1)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testInvalidauthentication() throws Exception {
+
+        given(beerService.listBeers(any(), any(), any(), any(), any()))
+                .willReturn(beerServiceImpl.listBeers(null, null, false, null, null));
+
+        mockMvc.perform(get(BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 }
