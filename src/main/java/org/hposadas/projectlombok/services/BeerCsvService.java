@@ -1,6 +1,6 @@
 package org.hposadas.projectlombok.services;
 
-import org.hposadas.projectlombok.model.BeerCSVRecord;
+import org.hposadas.projectlombok.entities.model.BeerCSVRecord;
 
 import java.io.File;
 import java.util.List;

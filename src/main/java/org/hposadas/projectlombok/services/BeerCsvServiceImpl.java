@@ -1,7 +1,7 @@
 package org.hposadas.projectlombok.services;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import org.hposadas.projectlombok.model.BeerCSVRecord;
+import org.hposadas.projectlombok.entities.model.BeerCSVRecord;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

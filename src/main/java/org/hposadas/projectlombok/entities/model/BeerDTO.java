@@ -1,4 +1,4 @@
-package org.hposadas.projectlombok.model;
+package org.hposadas.projectlombok.entities.model;
 
 
 import jakarta.validation.constraints.NotBlank;

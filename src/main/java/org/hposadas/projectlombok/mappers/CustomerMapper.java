@@ -1,7 +1,7 @@
 package org.hposadas.projectlombok.mappers;
 
 import org.hposadas.projectlombok.entities.Customer;
-import org.hposadas.projectlombok.model.CustomerDTO;
+import org.hposadas.projectlombok.entities.model.CustomerDTO;
 import org.mapstruct.Mapper;
 
 @Mapper

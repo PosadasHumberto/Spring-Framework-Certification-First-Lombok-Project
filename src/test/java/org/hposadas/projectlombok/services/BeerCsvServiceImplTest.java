@@ -1,6 +1,6 @@
 package org.hposadas.projectlombok.services;
 
-import org.hposadas.projectlombok.model.BeerCSVRecord;
+import org.hposadas.projectlombok.entities.model.BeerCSVRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -3,7 +3,7 @@ package org.hposadas.projectlombok.repositories;
 import jakarta.validation.ConstraintViolationException;
 import org.hposadas.projectlombok.bootstrap.BootstrapData;
 import org.hposadas.projectlombok.entities.Beer;
-import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.entities.model.BeerStyle;
 import org.hposadas.projectlombok.services.BeerCsvServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

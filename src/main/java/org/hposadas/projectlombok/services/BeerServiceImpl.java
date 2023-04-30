@@ -1,8 +1,8 @@
 package org.hposadas.projectlombok.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hposadas.projectlombok.model.BeerDTO;
-import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.entities.model.BeerDTO;
+import org.hposadas.projectlombok.entities.model.BeerStyle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;

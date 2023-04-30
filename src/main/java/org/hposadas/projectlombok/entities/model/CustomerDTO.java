@@ -1,4 +1,4 @@
-package org.hposadas.projectlombok.model;
+package org.hposadas.projectlombok.entities.model;
 
 import lombok.Builder;
 import lombok.Data;

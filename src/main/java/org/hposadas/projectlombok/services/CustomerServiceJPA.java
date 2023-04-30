@@ -3,7 +3,7 @@ package org.hposadas.projectlombok.services;
 import lombok.RequiredArgsConstructor;
 import org.hposadas.projectlombok.entities.Customer;
 import org.hposadas.projectlombok.mappers.CustomerMapper;
-import org.hposadas.projectlombok.model.CustomerDTO;
+import org.hposadas.projectlombok.entities.model.CustomerDTO;
 import org.hposadas.projectlombok.repositories.CustomerRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;

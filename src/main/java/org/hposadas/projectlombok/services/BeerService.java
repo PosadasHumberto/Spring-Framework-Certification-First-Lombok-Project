@@ -1,7 +1,7 @@
 package org.hposadas.projectlombok.services;
 
-import org.hposadas.projectlombok.model.BeerDTO;
-import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.entities.model.BeerDTO;
+import org.hposadas.projectlombok.entities.model.BeerStyle;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;

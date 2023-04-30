@@ -1,6 +1,6 @@
 package org.hposadas.projectlombok.services;
 
-import org.hposadas.projectlombok.model.CustomerDTO;
+import org.hposadas.projectlombok.entities.model.CustomerDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

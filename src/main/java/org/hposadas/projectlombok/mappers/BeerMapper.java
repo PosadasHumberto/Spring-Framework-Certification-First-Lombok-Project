@@ -1,7 +1,7 @@
 package org.hposadas.projectlombok.mappers;
 
 import org.hposadas.projectlombok.entities.Beer;
-import org.hposadas.projectlombok.model.BeerDTO;
+import org.hposadas.projectlombok.entities.model.BeerDTO;
 import org.mapstruct.Mapper;
 
 @Mapper

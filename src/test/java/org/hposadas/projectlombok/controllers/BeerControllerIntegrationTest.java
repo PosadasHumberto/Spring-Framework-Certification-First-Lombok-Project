@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.IsNull;
 import org.hposadas.projectlombok.entities.Beer;
 import org.hposadas.projectlombok.mappers.BeerMapper;
-import org.hposadas.projectlombok.model.BeerDTO;
-import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.entities.model.BeerDTO;
+import org.hposadas.projectlombok.entities.model.BeerStyle;
 import org.hposadas.projectlombok.repositories.BeerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

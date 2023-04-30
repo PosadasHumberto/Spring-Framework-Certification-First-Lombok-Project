@@ -1,4 +1,4 @@
-package org.hposadas.projectlombok.model;
+package org.hposadas.projectlombok.entities.model;
 
 public enum BeerStyle {
     LAGER,

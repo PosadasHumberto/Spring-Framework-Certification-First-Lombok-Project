@@ -2,8 +2,8 @@ package org.hposadas.projectlombok.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hposadas.projectlombok.model.BeerDTO;
-import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.entities.model.BeerDTO;
+import org.hposadas.projectlombok.entities.model.BeerStyle;
 import org.hposadas.projectlombok.services.BeerService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;

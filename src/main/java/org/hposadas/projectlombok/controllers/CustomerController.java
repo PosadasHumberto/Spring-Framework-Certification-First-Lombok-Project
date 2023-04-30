@@ -2,7 +2,7 @@ package org.hposadas.projectlombok.controllers;
 
 
 import lombok.RequiredArgsConstructor;
-import org.hposadas.projectlombok.model.CustomerDTO;
+import org.hposadas.projectlombok.entities.model.CustomerDTO;
 import org.hposadas.projectlombok.services.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package org.hposadas.projectlombok.repositories;
 
 import org.hposadas.projectlombok.entities.Beer;
-import org.hposadas.projectlombok.model.BeerStyle;
+import org.hposadas.projectlombok.entities.model.BeerStyle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

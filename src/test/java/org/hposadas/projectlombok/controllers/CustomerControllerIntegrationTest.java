@@ -2,7 +2,7 @@ package org.hposadas.projectlombok.controllers;
 
 import org.hposadas.projectlombok.entities.Customer;
 import org.hposadas.projectlombok.mappers.CustomerMapper;
-import org.hposadas.projectlombok.model.CustomerDTO;
+import org.hposadas.projectlombok.entities.model.CustomerDTO;
 import org.hposadas.projectlombok.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
